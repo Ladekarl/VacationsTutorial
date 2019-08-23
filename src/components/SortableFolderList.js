@@ -77,6 +77,7 @@ export default class SortableFolderList extends Component {
             return (
                 <SortableList
                     style={styles.container}
+                    contentContainerStyle={styles.container}
                     manuallyActivateRows={true}
                     data={this.sortedFolders}
                     onReleaseRow={this.onReleaseRow}

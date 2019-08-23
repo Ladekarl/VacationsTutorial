@@ -49,7 +49,18 @@ export default class Header extends Component {
         let routeName = navigation.state.routeName;
         let index = navigation.state.index;
         if (!routeName && index >= 0) {
-            const route = navigation.state.routes[index];
+            let route = navigation.state.routes[index];
+
+            getRoute = nestedRoute => {
+                if(nestedRoute.routes > 0 && nestedRoute.index >= 0) {
+                    getRoute(nestedRoute.routes[nestedRoute.index]);
+                } else {
+                    return nestedRoute.routes[nestedRoute.index];
+                }
+            }
+
+            route = getRoute(route);
+
             if (route) {
                 routeName = route.routeName;
             }
@@ -82,7 +93,7 @@ export default class Header extends Component {
                     </TouchableOpacity>
                 }
                 <Image
-                    style={[styles.headerImage, index === 0 ? styles.noBackImage : {}]}
+                    style={[styles.headerImage, index === 1 ? styles.noBackImage : {}]}
                     source={require('../../images/vacation.jpeg')}
                     resizeMode='cover'
                 />

@@ -5,8 +5,8 @@ export default class Folders {
 
     static _storageKey = Config.FOLDER_STORAGE_KEY;
 
-    static addFolder = async (folder) => {
-        let folders = await Folders.getFolders();
+    static addFolder = async (folder, tabIndex) => {
+        let folders = await Folders.getFolders(tabIndex);
 
         if (!folders) {
             folders = [];
@@ -14,11 +14,11 @@ export default class Folders {
 
         folders.push(folder);
 
-        return await Folders.saveFolders(folders);
+        return await Folders.saveFolders(folders, tabIndex);
     }
 
-    static editFolder = async (editedFolder) => {
-        const folders = await Folders.getFolders();
+    static editFolder = async (editedFolder, tabIndex) => {
+        const folders = await Folders.getFolders(tabIndex);
 
         if (!folders) {
             return;
@@ -28,11 +28,11 @@ export default class Folders {
         if (index > -1) {
             folders.splice(index, 1, editedFolder);
         }
-        return await Folders.saveFolders(folders);
+        return await Folders.saveFolders(folders, tabIndex);
     }
 
-    static deleteFolder = async (folderToDelete) => {
-        const folders = await Folders.getFolders();
+    static deleteFolder = async (folderToDelete, tabIndex) => {
+        const folders = await Folders.getFolders(tabIndex);
 
         if (!folders) {
             return;
@@ -43,36 +43,36 @@ export default class Folders {
             folders.splice(index, 1);
         }
 
-        await Folders.saveFolders(folders);
+        await Folders.saveFolders(folders, tabIndex);
 
         return folders;
     }
 
-    static saveFolders = async (folders) => {
+    static saveFolders = async (folders, tabIndex) => {
         const sortedFolders = Folders.sortFolders(folders);
-        return await Folders._saveItems(Folders._storageKey, sortedFolders);
+        return await Folders._saveItems(Folders._storageKey, tabIndex, sortedFolders);
     }
 
-    static saveSubfolders = async (parentId, subfolders) => {
+    static saveSubfolders = async (parentId, tabIndex, subfolders) => {
         const sortedSubfolders = Folders.sortFolders(subfolders);
-        return await Folders._saveItems(Folders._storageKey + parentId, sortedSubfolders);
+        return await Folders._saveItems(Folders._storageKey + parentId, tabIndex, sortedSubfolders);
     };
 
-    static _saveItems = async (key, items) => {
+    static _saveItems = async (key, tabIndex, items) => {
         try {
-            return await AsyncStorage.setItem(key, JSON.stringify(items));
+            return await AsyncStorage.setItem(key + tabIndex, JSON.stringify(items));
         } catch (error) {
             throw error;
         }
     }
 
-    static getFolders = async () => {
-        return await Folders._getItems(Folders._storageKey);
+    static getFolders = async (tabIndex) => {
+        return await Folders._getItems(Folders._storageKey, tabIndex);
     };
 
-    static _getItems = async (key) => {
+    static _getItems = async (key, tabIndex) => {
         try {
-            const folders = await AsyncStorage.getItem(key);
+            const folders = await AsyncStorage.getItem(key + tabIndex);
             if (folders) {
                 return JSON.parse(folders);
             }
@@ -81,8 +81,8 @@ export default class Folders {
         }
     }
 
-    static addSubfolder = async (subfolder) => {
-        let subfolders = await Folders.getSubfolders(subfolder.parent.id);
+    static addSubfolder = async (subfolder, tabIndex) => {
+        let subfolders = await Folders.getSubfolders(subfolder.parent.id, tabIndex);
 
         if (!subfolders) {
             subfolders = [];
@@ -90,11 +90,11 @@ export default class Folders {
 
         subfolders.push(subfolder);
 
-        return await Folders.saveSubfolders(subfolder.parent.id, subfolders);
+        return await Folders.saveSubfolders(subfolder.parent.id, tabIndex, subfolders);
     }
 
-    static editSubfolder = async (editedSubfolder) => {
-        const subfolders = await Folders.getSubfolders(editedSubfolder.parent.id);
+    static editSubfolder = async (editedSubfolder, tabIndex) => {
+        const subfolders = await Folders.getSubfolders(editedSubfolder.parent.id, tabIndex);
 
         if (!subfolders) {
             return;
@@ -105,11 +105,11 @@ export default class Folders {
         if (index > -1) {
             subfolders.splice(index, 1, editedSubfolder);
         }
-        return await Folders.saveSubfolders(editedSubfolder.parent.id, subfolders);
+        return await Folders.saveSubfolders(editedSubfolder.parent.id, tabIndex, subfolders);
     }
 
-    static deleteSubfolder = async (parentId, subfolderToDelete) => {
-        const subfolders = await Folders.getSubfolders(parentId);
+    static deleteSubfolder = async (parentId, tabIndex, subfolderToDelete) => {
+        const subfolders = await Folders.getSubfolders(parentId, tabIndex);
 
         if (!subfolders) {
             return;
@@ -120,13 +120,13 @@ export default class Folders {
             subfolders.splice(index, 1);
         }
 
-        await Folders.saveSubfolders(parentId, subfolders);
+        await Folders.saveSubfolders(parentId, tabIndex, subfolders);
 
         return subfolders;
     }
 
-    static getSubfolders = async (parentId) => {
-        return await Folders._getItems(Folders._storageKey + parentId);
+    static getSubfolders = async (parentId, tabIndex) => {
+        return await Folders._getItems(Folders._storageKey + parentId, tabIndex);
     };
 
     static sortFolders = (folders) => {

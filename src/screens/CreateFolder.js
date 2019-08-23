@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, TextInput, Image, ActivityIndicator } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, TextInput, Image, ActivityIndicator, Picker } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
 import Folders from '../storage/Folders';
 import uuid from 'react-native-uuid';
@@ -38,8 +38,10 @@ export default class CreateFolder extends Component {
             folder: {
                 title: '',
                 about: '',
-                icon: null
+                icon: null,
+                overlay: '0'
             },
+            tabIndex: null,
             cachedIcon: null,
             cachedImage: null,
             loading: false
@@ -52,12 +54,14 @@ export default class CreateFolder extends Component {
             onCreateFolderPressed: this.onCreateFolderPressed
         });
         if (navigation.state.params) {
-            const folder = navigation.state.params.folder;
+            const { folder, tabIndex } = navigation.state.params;
+            const stateToUpdate = {
+                tabIndex
+            };
             if (folder) {
-                this.setState({
-                    folder
-                });
+                stateToUpdate.folder = folder;
             }
+            this.setState(stateToUpdate);
         }
     }
 
@@ -80,7 +84,7 @@ export default class CreateFolder extends Component {
     }
 
     onCreateFolderPressed = () => {
-        const folder = this.state.folder;
+        const { folder, tabIndex } = this.state;
 
         if (!folder.title || !folder.icon) {
             return;
@@ -92,17 +96,17 @@ export default class CreateFolder extends Component {
 
         if (folder.id) {
             if (folder.parent) {
-                Folders.editSubfolder(folder).then(this.onFolderUpdated);
+                Folders.editSubfolder(folder, tabIndex).then(this.onFolderUpdated);
             } else {
-                Folders.editFolder(folder).then(this.onFolderUpdated);
+                Folders.editFolder(folder, tabIndex).then(this.onFolderUpdated);
             }
         } else {
             folder.id = uuid.v1();
 
             if (folder.parent) {
-                Folders.addSubfolder(folder).then(this.onFolderUpdated);
+                Folders.addSubfolder(folder, tabIndex).then(this.onFolderUpdated);
             } else {
-                Folders.addFolder(folder).then(this.onFolderUpdated);
+                Folders.addFolder(folder, tabIndex).then(this.onFolderUpdated);
             }
         }
     }
@@ -156,7 +160,7 @@ export default class CreateFolder extends Component {
     };
 
     render() {
-        const { folder, cachedIcon, cachedImage, loading } = this.state;
+        const { folder, cachedIcon, cachedImage, loading, tabIndex } = this.state;
         const { navigation } = this.props;
         const { params = {} } = navigation.state;
 
@@ -184,6 +188,21 @@ export default class CreateFolder extends Component {
                         onChangeText={text => this.setState({ folder: { ...this.state.folder, about: text } })}
                     />
                 </View>
+                {tabIndex === 1 &&
+                    <View style={styles.rowContainer}>
+                        <Text style={styles.titleText}>Overlay:</Text>
+                        <Picker
+                            style={styles.textInput}
+                            selectedValue={folder.overlay}
+                            onValueChange={value => this.setState({ folder: { ...this.state.folder, overlay: value } })}
+                        >
+                            <Picker.Item label="None" value="0" />
+                            <Picker.Item label="Overlay 1" value="1" />
+                            <Picker.Item label="Overlay 2" value="2" />
+                            <Picker.Item label="Overlay 3" value="3" />
+                        </Picker>
+                    </View>
+                }
                 <TouchableOpacity
                     style={styles.addIconButton}
                     disabled={loading}
@@ -272,7 +291,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         color: '#000000',
-        width: 65,
+        width: 75,
         textAlign: 'right',
         marginRight: 10
     },

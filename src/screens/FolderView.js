@@ -27,7 +27,7 @@ export default class FolderView extends Component {
         });
 
         if (params.folder) {
-            Folders.getSubfolders(params.folder.id).then(subfolders => {
+            Folders.getSubfolders(params.folder.id, params.tabIndex).then(subfolders => {
                 if (subfolders && subfolders.length > 0) {
                     this.setState({
                         subfolders,
@@ -52,6 +52,7 @@ export default class FolderView extends Component {
         this.props.navigation.navigate('CreateFolder', {
             title: 'Create New Subfolder',
             parent: params.folder,
+            tabIndex: params.tabIndex,
             onGoBack: this.onGoBack
         });
     };
@@ -78,6 +79,7 @@ export default class FolderView extends Component {
                 title: folder.title,
                 folder,
                 parent: params.folder,
+                tabIndex: params.tabIndex,
                 onGoBack: this.onGoBack
             });
         } else {
@@ -91,7 +93,7 @@ export default class FolderView extends Component {
         this.setState({
             loading: true
         });
-        Folders.deleteSubfolder(params.folder.id, folder).then(subfolders => {
+        Folders.deleteSubfolder(params.folder.id, params.tabIndex, folder).then(subfolders => {
             this.setState({
                 subfolders,
                 loading: false
@@ -121,7 +123,7 @@ export default class FolderView extends Component {
     onOrderUpdated = (folders) => {
         const { navigation } = this.props;
         const { params = {} } = navigation.state;
-        Folders.saveSubfolders(params.folder.id, folders);
+        Folders.saveSubfolders(params.folder.id, params.tabIndex, folders);
     }
 
     render() {

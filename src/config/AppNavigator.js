@@ -4,10 +4,10 @@ import {
     createStackNavigator
 } from 'react-navigation';
 import CreateFolder from '../screens/CreateFolder';
-import FoldersList from '../screens/FoldersList';
 import FolderView from '../screens/FolderView';
 import SplashScreen from '../screens/SplashScreen';
 import Header from '../components/Header';
+import TabNavigator from './TabNavigator';
 
 const headerNavigationOptions = {
     header: props => <Header {...props} />
@@ -21,7 +21,7 @@ const Routes = {
         screen: CreateFolder,
     },
     FoldersList: {
-        screen: FoldersList,
+        screen: TabNavigator,
         navigationOptions: headerNavigationOptions
     },
     FolderView: {

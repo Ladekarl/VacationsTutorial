@@ -4,8 +4,15 @@ import Folders from '../storage/Folders';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Account from '../storage/Account';
 import SortableFolderList from '../components/SortableFolderList';
+import PropTypes from 'prop-types';
 
 export default class FoldersList extends Component {
+
+    static propTypes = {
+        navigation: PropTypes.object.isRequired,
+        tabIndex: PropTypes.number.isRequired,
+        createFolderTitle: PropTypes.string
+    }
 
     constructor(props) {
         super(props);
@@ -16,11 +23,16 @@ export default class FoldersList extends Component {
         }
     }
 
+    willFocusListener;
+
     componentDidMount() {
         this.setState({
             loading: true
         });
-        Folders.getFolders().then(folders => {
+
+        willFocusListener = this.props.navigation.addListener('willFocus', () => this.forceUpdate());
+
+        Folders.getFolders(this.props.tabIndex).then(folders => {
             if (folders && folders.length > 0) {
                 this.setState({
                     folders,
@@ -38,9 +50,15 @@ export default class FoldersList extends Component {
         });
     }
 
+    componentWillUnmount() {
+        this.willFocusListener.remove();
+    }
+
     onAddFolderPressed = () => {
         this.props.navigation.navigate('CreateFolder', {
-            onGoBack: this.onGoBack
+            onGoBack: this.onGoBack,
+            tabIndex: this.props.tabIndex,
+            title: this.props.createFolderTitle
         });
     };
 
@@ -50,7 +68,8 @@ export default class FoldersList extends Component {
             this.props.navigation.navigate('CreateFolder', {
                 title: folder.title,
                 folder,
-                onGoBack: this.onGoBack
+                onGoBack: this.onGoBack,
+                tabIndex: this.props.tabIndex
             });
         } else {
             this.navigateFolderView(folder);
@@ -60,6 +79,7 @@ export default class FoldersList extends Component {
     navigateFolderView = (folder) => {
         this.props.navigation.navigate('FolderView', {
             folder,
+            tabIndex: this.props.tabIndex,
             onBack: () => {
                 this.forceUpdate()
             }
@@ -70,7 +90,7 @@ export default class FoldersList extends Component {
         this.setState({
             loading: true
         });
-        Folders.deleteFolder(folder).then(folders => {
+        Folders.deleteFolder(folder, this.props.tabIndex).then(folders => {
             this.setState({
                 folders,
                 loading: false
@@ -96,7 +116,7 @@ export default class FoldersList extends Component {
     }
 
     onOrderUpdated = (folders) => {
-        Folders.saveFolders(folders);
+        Folders.saveFolders(folders, this.props.tabIndex);
     }
 
     render() {

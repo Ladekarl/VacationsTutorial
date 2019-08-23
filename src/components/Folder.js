@@ -17,14 +17,6 @@ export default class Folder extends Component {
         active: PropTypes.bool.isRequired
     }
 
-    swipeoutButtons = [
-        {
-            text: 'DELETE',
-            type: 'delete',
-            onPress: this.onDeleteFolderPress
-        }
-    ];
-
     constructor(props) {
         super(props);
 
@@ -128,10 +120,18 @@ export default class Folder extends Component {
         } = this.props;
 
         if (isSignedIn && canDelete) {
+            const swipeoutButtons = [
+                {
+                    text: 'DELETE',
+                    type: 'delete',
+                    onPress: this.onDeleteFolderPress
+                }
+            ];
+
             return (
                 <Swipeout
                     backgroundColor='#ffffff'
-                    right={this.swipeoutButtons}>
+                    right={swipeoutButtons}>
                     {this.renderFolder()}
                 </Swipeout>
             )
@@ -146,8 +146,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row'
     },
     activeStyle: {
-        backgroundColor: '#006727',
-        opacity: 0.7
+        backgroundColor: '#006727'
     },
     icon: {
         height: 50,
