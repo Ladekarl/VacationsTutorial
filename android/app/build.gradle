@@ -135,6 +135,8 @@ android {
 }
 
 dependencies {
+    implementation project(':rn-fetch-blob')
+    implementation project(':react-native-document-picker')
     implementation project(':react-native-sound')
     implementation project(':react-native-orientation')
     implementation project(':react-native-config')

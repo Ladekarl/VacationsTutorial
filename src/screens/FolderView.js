@@ -1,10 +1,11 @@
-import React, { Component } from 'react';
-import { View, TouchableOpacity, StyleSheet, Text, ActivityIndicator, Modal, ImageBackground } from 'react-native'
+import React, {Component} from 'react';
+import {ActivityIndicator, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Account from '../storage/Account';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Folders from '../storage/Folders';
 import Orientation from 'react-native-orientation';
 import SortableFolderList from '../components/SortableFolderList';
+import ImageModal from '../components/ImageModal';
 
 export default class FolderView extends Component {
 
@@ -14,13 +15,13 @@ export default class FolderView extends Component {
             subfolders: [],
             loading: false,
             imageModalVisible: false,
-            image: null
-        }
+            folder: null
+        };
     }
 
     componentDidMount() {
-        const { navigation } = this.props;
-        const { params = {} } = navigation.state;
+        const {navigation} = this.props;
+        const {params = {}} = navigation.state;
 
         this.setState({
             loading: true
@@ -32,7 +33,7 @@ export default class FolderView extends Component {
                     this.setState({
                         subfolders,
                         loading: false
-                    })
+                    });
                 } else {
                     this.setState({
                         loading: false
@@ -47,8 +48,8 @@ export default class FolderView extends Component {
     }
 
     onAddSubfolderPressed = () => {
-        const { navigation } = this.props;
-        const { params = {} } = navigation.state;
+        const {navigation} = this.props;
+        const {params = {}} = navigation.state;
         this.props.navigation.navigate('CreateFolder', {
             title: 'Create New Subfolder',
             parent: params.folder,
@@ -72,8 +73,8 @@ export default class FolderView extends Component {
 
     onFolderPressed = (folder) => {
         const isSignedIn = Account.getSignedIn();
-        const { navigation } = this.props;
-        const { params = {} } = navigation.state;
+        const {navigation} = this.props;
+        const {params = {}} = navigation.state;
         if (isSignedIn) {
             this.props.navigation.navigate('CreateFolder', {
                 title: folder.title,
@@ -83,13 +84,13 @@ export default class FolderView extends Component {
                 onGoBack: this.onGoBack
             });
         } else {
-            this.openImageModal(folder.image);
+            this.openImageModal(folder);
         }
     };
 
     onDeleteFolderPressed = (folder) => {
-        const { navigation } = this.props;
-        const { params = {} } = navigation.state;
+        const {navigation} = this.props;
+        const {params = {}} = navigation.state;
         this.setState({
             loading: true
         });
@@ -105,11 +106,11 @@ export default class FolderView extends Component {
         });
     };
 
-    openImageModal = (image) => {
+    openImageModal = (folder) => {
         Orientation.lockToPortrait();
         this.setState({
             imageModalVisible: true,
-            image
+            folder
         });
     };
 
@@ -121,15 +122,15 @@ export default class FolderView extends Component {
     };
 
     onOrderUpdated = (folders) => {
-        const { navigation } = this.props;
-        const { params = {} } = navigation.state;
+        const {navigation} = this.props;
+        const {params = {}} = navigation.state;
         Folders.saveSubfolders(params.folder.id, params.tabIndex, folders);
-    }
+    };
 
     render() {
-        const { loading, subfolders, imageModalVisible, image } = this.state;
-        const { navigation } = this.props;
-        const { params = {} } = navigation.state;
+        const {loading, subfolders, imageModalVisible, folder} = this.state;
+        const {navigation} = this.props;
+        const {params = {}} = navigation.state;
 
         const isSignedIn = Account.getSignedIn();
 
@@ -145,33 +146,28 @@ export default class FolderView extends Component {
                     onDeletePress={this.onDeleteFolderPressed}
                 />
                 {isSignedIn &&
-                    <TouchableOpacity
-                        style={styles.addSubfolderButton}
-                        onPress={this.onAddSubfolderPressed}>
-                        <Icon name={'plus'} color='#e0e0e0' size={20} />
-                    </TouchableOpacity>
+                <TouchableOpacity
+                    style={styles.addSubfolderButton}
+                    onPress={this.onAddSubfolderPressed}>
+                    <Icon name={'plus'} color='#e0e0e0' size={20}/>
+                </TouchableOpacity>
                 }
                 {loading &&
-                    <View style={styles.loadingContainer}>
-                        <ActivityIndicator size='large' />
-                    </View>
+                <View style={styles.loadingContainer}>
+                    <ActivityIndicator size='large'/>
+                </View>
                 }
-                <Modal
+                {folder &&
+                <ImageModal
                     visible={imageModalVisible}
-                    onRequestClose={this.closeImageModal}>
-                    <ImageBackground
-                        style={styles.imageBackground}
-                        source={{ uri: 'file://' + image }}
-                        resizeMode="contain">
-                        <TouchableOpacity
-                            style={styles.doneButton}
-                            onPress={this.closeImageModal}>
-                            <Text style={styles.doneText}>DONE</Text>
-                        </TouchableOpacity>
-                    </ImageBackground>
-                </Modal>
+                    image={'file://' + folder.image}
+                    overlay={folder.overlay}
+                    overlays={folder.overlays}
+                    onDonePressed={this.closeImageModal}
+                    onRequestClose={this.closeImageModal}/>
+                }
             </View>
-        )
+        );
     }
 }
 
@@ -206,20 +202,4 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center'
     },
-    imageBackground: {
-        flex: 1
-    },
-    doneButton: {
-        position: 'absolute',
-        top: 15,
-        left: 15,
-        padding: 5,
-        backgroundColor: 'transparent',
-        borderColor: '#000000',
-        borderWidth: 1,
-        borderRadius: 4
-    },
-    doneText: {
-        fontWeight: 'bold'
-    }
 });
