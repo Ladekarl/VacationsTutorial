@@ -1,13 +1,15 @@
-import React, { Component } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, TextInput, Image, ActivityIndicator, Picker } from 'react-native';
-import ImagePicker from 'react-native-image-picker';
+import React, {Component} from 'react';
+import {ActivityIndicator, Image, Picker, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import Folders from '../storage/Folders';
 import uuid from 'react-native-uuid';
+import DocumentPicker from 'react-native-document-picker';
+import RNFetchBlob from 'rn-fetch-blob';
+import ImageModal from '../components/ImageModal';
 
 export default class CreateFolder extends Component {
 
-    static navigationOptions = ({ navigation }) => {
-        const { params = {} } = navigation.state;
+    static navigationOptions = ({navigation}) => {
+        const {params = {}} = navigation.state;
         return {
             title: params.title ? params.title : 'Create New Folder',
             headerStyle: {
@@ -19,7 +21,7 @@ export default class CreateFolder extends Component {
                     onPress={() => navigation.goBack(null)}>
                     <Image
                         style={styles.headerImage}
-                        source={require('../../images/back.png')} />
+                        source={require('../../images/back.png')}/>
                 </TouchableOpacity>,
             headerRight:
                 <TouchableOpacity
@@ -27,10 +29,10 @@ export default class CreateFolder extends Component {
                     style={styles.headerRightButton}>
                     <Image
                         style={styles.headerImage}
-                        source={require('../../images/save.png')} />
+                        source={require('../../images/save.png')}/>
                 </TouchableOpacity>
-        }
-    }
+        };
+    };
 
     constructor(props) {
         super(props);
@@ -39,22 +41,24 @@ export default class CreateFolder extends Component {
                 title: '',
                 about: '',
                 icon: null,
-                overlay: '0'
+                overlay: '0',
+                overlays: []
             },
             tabIndex: null,
             cachedIcon: null,
             cachedImage: null,
-            loading: false
-        }
+            loading: false,
+            imageModalVisible: false
+        };
     }
 
     componentDidMount() {
-        const { navigation } = this.props;
+        const {navigation} = this.props;
         navigation.setParams({
             onCreateFolderPressed: this.onCreateFolderPressed
         });
         if (navigation.state.params) {
-            const { folder, tabIndex } = navigation.state.params;
+            const {folder, tabIndex} = navigation.state.params;
             const stateToUpdate = {
                 tabIndex
             };
@@ -65,26 +69,8 @@ export default class CreateFolder extends Component {
         }
     }
 
-    iconOptions = {
-        title: 'Choose custom icon',
-        takePhotoButtonTitle: null,
-        storageOptions: {
-            skipBackup: true,
-            path: 'images'
-        }
-    }
-
-    imageOptions = {
-        title: 'Choose image',
-        takePhotoButtonTitle: null,
-        storageOptions: {
-            skipBackup: true,
-            path: 'images'
-        }
-    }
-
     onCreateFolderPressed = () => {
-        const { folder, tabIndex } = this.state;
+        const {folder, tabIndex} = this.state;
 
         if (!folder.title || !folder.icon) {
             return;
@@ -109,7 +95,7 @@ export default class CreateFolder extends Component {
                 Folders.addFolder(folder, tabIndex).then(this.onFolderUpdated);
             }
         }
-    }
+    };
 
     onFolderUpdated = () => {
         const folder = this.state.folder;
@@ -121,48 +107,73 @@ export default class CreateFolder extends Component {
             navigation.state.params.onGoBack(folder);
         }
         navigation.goBack();
-    }
+    };
 
     onAddIconPressed = () => {
-        const { navigation } = this.props;
-        const { params = {} } = navigation.state;
-        ImagePicker.showImagePicker(this.iconOptions, (response) => {
-            if (!response.didCancel && !response.error) {
-                const icon = response.path;
+        const {navigation} = this.props;
+        const {params = {}} = navigation.state;
+        DocumentPicker.pick({
+            type: [DocumentPicker.types.images]
+        }).then(res => {
+            const uri = res.uri;
+            RNFetchBlob.fs.stat(uri).then(stat => {
+                const icon = stat.path;
                 this.setState({
                     folder: {
                         ...this.state.folder,
                         parent: params.parent,
                         icon,
                     },
-                    cachedIcon: response.uri
+                    cachedIcon: uri
                 });
-            }
+            });
         });
     };
 
     onAddImagePressed = () => {
-        const { navigation } = this.props;
-        const { params = {} } = navigation.state;
-        ImagePicker.showImagePicker(this.imageOptions, (response) => {
-            if (!response.didCancel && !response.error) {
-                const image = response.path;
+        const {navigation} = this.props;
+        const {params = {}} = navigation.state;
+        DocumentPicker.pick({
+            type: [DocumentPicker.types.images]
+        }).then(res => {
+            const uri = res.uri;
+            RNFetchBlob.fs.stat(uri).then(stat => {
+                const image = stat.path;
                 this.setState({
                     folder: {
                         ...this.state.folder,
                         image,
                         parent: params.parent
                     },
-                    cachedImage: response.uri
+                    cachedImage: uri
                 });
-            }
+            });
+        });
+    };
+
+    saveOverlays = (overlays) => {
+        this.setState({
+            folder: {...this.state.folder, overlays},
+            imageModalVisible: false
+        });
+    };
+
+    openImageModal = () => {
+        this.setState({
+            imageModalVisible: true
+        });
+    };
+
+    closeImageModal = () => {
+        this.setState({
+            imageModalVisible: false
         });
     };
 
     render() {
-        const { folder, cachedIcon, cachedImage, loading, tabIndex } = this.state;
-        const { navigation } = this.props;
-        const { params = {} } = navigation.state;
+        const {folder, cachedIcon, cachedImage, loading, tabIndex, imageModalVisible} = this.state;
+        const {navigation} = this.props;
+        const {params = {}} = navigation.state;
 
         return (
             <View style={styles.container}>
@@ -174,7 +185,7 @@ export default class CreateFolder extends Component {
                         selectionColor='#459288'
                         placeholder='input title'
                         value={folder.title}
-                        onChangeText={text => this.setState({ folder: { ...this.state.folder, title: text } })}
+                        onChangeText={text => this.setState({folder: {...this.state.folder, title: text}})}
                     />
                 </View>
                 <View style={styles.rowContainer}>
@@ -185,23 +196,23 @@ export default class CreateFolder extends Component {
                         selectionColor='#459288'
                         placeholder='input description'
                         value={folder.about}
-                        onChangeText={text => this.setState({ folder: { ...this.state.folder, about: text } })}
+                        onChangeText={text => this.setState({folder: {...this.state.folder, about: text}})}
                     />
                 </View>
-                {tabIndex === 1 &&
-                    <View style={styles.rowContainer}>
-                        <Text style={styles.titleText}>Overlay:</Text>
-                        <Picker
-                            style={styles.textInput}
-                            selectedValue={folder.overlay}
-                            onValueChange={value => this.setState({ folder: { ...this.state.folder, overlay: value } })}
-                        >
-                            <Picker.Item label="None" value="0" />
-                            <Picker.Item label="Overlay 1" value="1" />
-                            <Picker.Item label="Overlay 2" value="2" />
-                            <Picker.Item label="Overlay 3" value="3" />
-                        </Picker>
-                    </View>
+                {tabIndex === 1 && params.parent &&
+                <View style={styles.rowContainer}>
+                    <Text style={styles.titleText}>Overlay:</Text>
+                    <Picker
+                        style={styles.textInput}
+                        selectedValue={folder.overlay}
+                        onValueChange={value => this.setState({folder: {...this.state.folder, overlay: value}})}
+                    >
+                        <Picker.Item label="None" value="0"/>
+                        <Picker.Item label="Overlay 1" value="1"/>
+                        <Picker.Item label="Overlay 2" value="2"/>
+                        <Picker.Item label="Overlay 3" value="3"/>
+                    </Picker>
+                </View>
                 }
                 <TouchableOpacity
                     style={styles.addIconButton}
@@ -211,50 +222,56 @@ export default class CreateFolder extends Component {
                     <Text style={styles.addIconText}>ADD CUSTOM ICON</Text>
                 </TouchableOpacity>
                 {cachedIcon &&
-                    <Image
-                        style={styles.previewIcon}
-                        resizeMode="contain"
-                        borderRadius={10}
-                        source={{ uri: cachedIcon }}
-                    />
+                <Image
+                    style={styles.previewIcon}
+                    resizeMode="contain"
+                    borderRadius={10}
+                    source={{uri: cachedIcon}}
+                />
                 }
                 {!cachedIcon && folder.icon &&
-                    <Image
-                        style={styles.previewIcon}
-                        resizeMode="contain"
-                        borderRadius={10}
-                        source={{ uri: 'file://' + folder.icon }}
-                    />
+                <Image
+                    style={styles.previewIcon}
+                    resizeMode="contain"
+                    borderRadius={10}
+                    source={{uri: 'file://' + folder.icon}}
+                />
                 }
                 {params.parent &&
-                    <TouchableOpacity
-                        style={styles.addIconButton}
-                        disabled={loading}
-                        onPress={this.onAddImagePressed}
-                    >
-                        <Text style={styles.addIconText}>ADD IMAGE</Text>
-                    </TouchableOpacity>
+                <TouchableOpacity
+                    style={styles.addIconButton}
+                    disabled={loading}
+                    onPress={this.onAddImagePressed}
+                >
+                    <Text style={styles.addIconText}>ADD IMAGE</Text>
+                </TouchableOpacity>
                 }
-                {params.parent && cachedImage &&
+                {params.parent && (!!cachedImage || folder.image) &&
+                <TouchableOpacity
+                    style={styles.imageButton}
+                    onPress={this.openImageModal}>
                     <Image
                         style={styles.previewIcon}
                         resizeMode="contain"
                         borderRadius={10}
-                        source={{ uri: cachedImage }}
+                        source={{uri: cachedImage ?? 'file://' + folder.image}}
                     />
-                }
-                {params.parent && !cachedImage && folder.image &&
-                    <Image
-                        style={styles.previewIcon}
-                        resizeMode="contain"
-                        borderRadius={10}
-                        source={{ uri: 'file://' + folder.image }}
-                    />
+                </TouchableOpacity>
                 }
                 {loading &&
-                    <View style={styles.loadingContainer}>
-                        <ActivityIndicator size='large' />
-                    </View>
+                <View style={styles.loadingContainer}>
+                    <ActivityIndicator size='large'/>
+                </View>
+                }
+                {!!cachedImage || folder.image &&
+                <ImageModal
+                    visible={imageModalVisible}
+                    image={cachedImage ?? 'file://' + folder.image}
+                    overlay={folder.overlay}
+                    overlays={folder.overlays}
+                    edit={true}
+                    onRequestClose={this.closeImageModal}
+                    onDonePressed={this.saveOverlays}/>
                 }
             </View>
         );
@@ -309,6 +326,10 @@ const styles = StyleSheet.create({
     addIconText: {
         color: '#ffffff',
         fontWeight: 'bold'
+    },
+    imageButton: {
+        flex: 1,
+        alignSelf: 'stretch'
     },
     previewIcon: {
         flex: 1,

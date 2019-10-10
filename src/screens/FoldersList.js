@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { View, StyleSheet, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
+import React, {Component} from 'react';
+import {ActivityIndicator, StyleSheet, TouchableOpacity, View} from 'react-native';
 import Folders from '../storage/Folders';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Account from '../storage/Account';
@@ -12,7 +12,7 @@ export default class FoldersList extends Component {
         navigation: PropTypes.object.isRequired,
         tabIndex: PropTypes.number.isRequired,
         createFolderTitle: PropTypes.string
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -20,7 +20,7 @@ export default class FoldersList extends Component {
         this.state = {
             folders: [],
             loading: false
-        }
+        };
     }
 
     willFocusListener;
@@ -30,7 +30,7 @@ export default class FoldersList extends Component {
             loading: true
         });
 
-        willFocusListener = this.props.navigation.addListener('willFocus', () => this.forceUpdate());
+        this.willFocusListener = this.props.navigation.addListener('willFocus', () => this.forceUpdate());
 
         Folders.getFolders(this.props.tabIndex).then(folders => {
             if (folders && folders.length > 0) {
@@ -51,7 +51,9 @@ export default class FoldersList extends Component {
     }
 
     componentWillUnmount() {
-        this.willFocusListener.remove();
+        if (this.willFocusListener) {
+            this.willFocusListener.remove();
+        }
     }
 
     onAddFolderPressed = () => {
@@ -74,17 +76,17 @@ export default class FoldersList extends Component {
         } else {
             this.navigateFolderView(folder);
         }
-    }
+    };
 
     navigateFolderView = (folder) => {
         this.props.navigation.navigate('FolderView', {
             folder,
             tabIndex: this.props.tabIndex,
             onBack: () => {
-                this.forceUpdate()
+                this.forceUpdate();
             }
         });
-    }
+    };
 
     onDeleteFolderPressed = (folder) => {
         this.setState({
@@ -100,7 +102,7 @@ export default class FoldersList extends Component {
                 loading: false
             });
         });
-    }
+    };
 
     onGoBack = (folder) => {
         const folders = this.state.folders;
@@ -113,19 +115,18 @@ export default class FoldersList extends Component {
         this.setState({
             folders: Folders.sortFolders(folders)
         });
-    }
+    };
 
     onOrderUpdated = (folders) => {
         Folders.saveFolders(folders, this.props.tabIndex);
-    }
+    };
 
     render() {
-        const { folders, loading } = this.state;
+        const {folders, loading} = this.state;
         const isSignedIn = Account.getSignedIn();
 
         return (
             <View style={styles.container}>
-                <Text style={styles.foldersText}>Folders</Text>
                 <SortableFolderList
                     folders={folders}
                     isParent={true}
@@ -136,17 +137,17 @@ export default class FoldersList extends Component {
                     onOrderUpdated={this.onOrderUpdated}
                 />
                 {isSignedIn &&
-                    <TouchableOpacity
-                        style={styles.addFolderButton}
-                        onPress={this.onAddFolderPressed}
-                    >
-                        <Icon name={'plus'} color='#e0e0e0' size={20} />
-                    </TouchableOpacity>
+                <TouchableOpacity
+                    style={styles.addFolderButton}
+                    onPress={this.onAddFolderPressed}
+                >
+                    <Icon name={'plus'} color='#e0e0e0' size={20}/>
+                </TouchableOpacity>
                 }
                 {loading &&
-                    <View style={styles.loadingContainer}>
-                        <ActivityIndicator size='large' />
-                    </View>
+                <View style={styles.loadingContainer}>
+                    <ActivityIndicator size='large'/>
+                </View>
                 }
             </View>
         );
@@ -168,12 +169,6 @@ const styles = StyleSheet.create({
         paddingBottom: 23,
         borderRadius: 200,
         elevation: 8
-    },
-    foldersText: {
-        marginTop: 20,
-        marginLeft: 20,
-        marginBottom: 10,
-        fontSize: 15
     },
     loadingContainer: {
         position: 'absolute',

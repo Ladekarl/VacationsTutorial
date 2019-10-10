@@ -1,6 +1,5 @@
-import React, { Component } from 'react';
-import { StyleSheet, View, TouchableOpacity, Image } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import React, {Component} from 'react';
+import {Image, StyleSheet, TouchableOpacity, View} from 'react-native';
 import Account from '../storage/Account';
 import SignIn from './SignIn';
 
@@ -10,11 +9,11 @@ export default class Header extends Component {
         super(props);
         this.state = {
             showSignIn: false
-        }
+        };
     }
 
     onBackPress = () => {
-        const { navigation } = this.props;
+        const {navigation} = this.props;
         let index = navigation.state.index;
         if (index >= 0) {
             const route = navigation.state.routes[index];
@@ -23,7 +22,7 @@ export default class Header extends Component {
             }
         }
         navigation.goBack(null);
-    }
+    };
 
     openSignInModal = () => {
         const isSignedIn = Account.getSignedIn();
@@ -45,21 +44,20 @@ export default class Header extends Component {
 
     setSignedIn = (signedIn) => {
         Account.setSignedIn(signedIn);
-        const { navigation } = this.props;
+        const {navigation} = this.props;
         let routeName = navigation.state.routeName;
         let index = navigation.state.index;
         if (!routeName && index >= 0) {
             let route = navigation.state.routes[index];
 
-            getRoute = nestedRoute => {
-                if(nestedRoute.routes > 0 && nestedRoute.index >= 0) {
+            const getRoute = nestedRoute => {
+                if (nestedRoute.routes && nestedRoute.routes.length > 0) {
                     getRoute(nestedRoute.routes[nestedRoute.index]);
                 } else {
-                    return nestedRoute.routes[nestedRoute.index];
+                    route = nestedRoute;
                 }
-            }
-
-            route = getRoute(route);
+            };
+            getRoute(route);
 
             if (route) {
                 routeName = route.routeName;
@@ -75,25 +73,25 @@ export default class Header extends Component {
     };
 
     render() {
-        const { showSignIn } = this.state;
-        const { navigation } = this.props;
+        const {showSignIn} = this.state;
+        const {navigation} = this.props;
         const index = navigation.state.index;
 
         const isSignedIn = Account.getSignedIn();
         return (
             <View style={styles.container}>
-                {index > 1 &&
-                    <TouchableOpacity
-                        style={styles.leftButton}
-                        onPress={this.onBackPress}>
-                        <Image
-                            style={styles.headerButtonImage}
-                            source={require('../../images/back.png')}
-                        />
-                    </TouchableOpacity>
+                {index > 0 &&
+                <TouchableOpacity
+                    style={styles.leftButton}
+                    onPress={this.onBackPress}>
+                    <Image
+                        style={styles.headerButtonImage}
+                        source={require('../../images/back.png')}
+                    />
+                </TouchableOpacity>
                 }
                 <Image
-                    style={[styles.headerImage, index === 1 ? styles.noBackImage : {}]}
+                    style={[styles.headerImage, index === 0 ? styles.noBackImage : {}]}
                     source={require('../../images/vacation.jpeg')}
                     resizeMode='cover'
                 />
@@ -101,24 +99,24 @@ export default class Header extends Component {
                     onPress={this.openSignInModal}
                     style={styles.rightButton}>
                     {isSignedIn &&
-                        <Image
-                            style={styles.headerButtonImage}
-                            source={require('../../images/logout.png')}
-                        />
+                    <Image
+                        style={styles.headerButtonImage}
+                        source={require('../../images/logout.png')}
+                    />
                     }
                     {!isSignedIn &&
-                        <Image
-                            style={styles.headerButtonImage}
-                            source={require('../../images/login.png')}
-                        />
+                    <Image
+                        style={styles.headerButtonImage}
+                        source={require('../../images/login.png')}
+                    />
                     }
                 </TouchableOpacity>
                 <SignIn
                     visible={showSignIn}
                     onSignIn={this.onSignInPressed}
-                    onClose={this.closeSignInModal} />
+                    onClose={this.closeSignInModal}/>
             </View>
-        )
+        );
     }
 }
 

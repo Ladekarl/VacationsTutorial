@@ -1,8 +1,9 @@
-import React, { Component } from 'react';
-import { StyleSheet, View, Animated, Easing, Dimensions, Image } from 'react-native';
+import React, {Component} from 'react';
+import {Animated, Dimensions, Easing, Image, StyleSheet, View} from 'react-native';
 import Sound from 'react-native-sound';
+import {NavigationActions, StackActions} from 'react-navigation';
 
-const { height, width } = Dimensions.get('window');
+const {height, width} = Dimensions.get('window');
 
 export default class SplashScreen extends Component {
 
@@ -18,12 +19,16 @@ export default class SplashScreen extends Component {
     }
 
     componentDidMount() {
-        const { navigation } = this.props;
+        const {navigation} = this.props;
 
         this.animate();
         this.playSound();
         setTimeout(() => {
-            navigation.navigate('FoldersList');
+            const resetAction = StackActions.reset({
+                index: 0,
+                actions: [NavigationActions.navigate({routeName: 'FoldersList'})]
+            });
+            navigation.dispatch(resetAction);
         }, 2000);
     }
 
@@ -41,7 +46,7 @@ export default class SplashScreen extends Component {
             }
             this.mySound.play();
         });
-    }
+    };
 
     animate() {
         this.anim.setValue(0);
