@@ -17,7 +17,7 @@ export default class ImageModal extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            tempOverlays: new Array(6)
+            tempOverlays: props.overlays && props.overlays.length > 0 ? [...props.overlays] : new Array(6)
         };
     }
 
@@ -52,16 +52,19 @@ export default class ImageModal extends Component {
             let placeholderText = 'INDTAST';
             if (overlays && overlays.length > 0) {
                 const overlayText = overlays[index];
-                if (overlayText && overlayText.length > 0) {
+                if (overlayText && overlayText.trim().length > 0) {
                     placeholderText = overlayText;
                 }
             }
+
+            const value = tempOverlays[index];
+
             return (
                 <TextInput
                     style={textStyle}
-                    placeholder={placeholderText}
+                    placeholder={value ? '' : placeholderText}
                     placeholderTextColor='#000000'
-                    value={tempOverlays[index]}
+                    value={value}
                     onChangeText={(text) => this.changeOverlayText(index, text)}
                 />
             );
@@ -233,7 +236,7 @@ const styles = StyleSheet.create({
         borderRadius: 4
     },
     doneText: {
-      fontWeight: 'bold'
+        fontWeight: 'bold'
     },
     overlayContainer: {
         flex: 1,

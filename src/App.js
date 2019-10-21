@@ -5,8 +5,7 @@ import Config from 'react-native-config';
 export default class App extends Component {
     render() {
         return (
-            <AppNavigator
-                persistenceKey={Config.NAVIGATION_PERSISTENCE_KEY}/>
+            <AppNavigator persistenceKey={Config.NAVIGATION_PERSISTENCE_KEY}/>
         );
     }
 }
