@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {ImageBackground, Modal, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import PropTypes from 'prop-types';
+import Swipeout from 'react-native-swipeout';
 
 export default class ImageModal extends Component {
 
@@ -65,6 +66,7 @@ export default class ImageModal extends Component {
                     placeholder={value ? '' : placeholderText}
                     placeholderTextColor='#000000'
                     value={value}
+                    maxLength={20}
                     onChangeText={(text) => this.changeOverlayText(index, text)}
                 />
             );
@@ -173,6 +175,14 @@ export default class ImageModal extends Component {
         }
     };
 
+    swipeoutButtons = [
+        {
+            text: 'CLEAR',
+            type: 'delete',
+            onPress: this.onClearPressed
+        }
+    ];
+
     render() {
         const {
             visible,
@@ -198,11 +208,16 @@ export default class ImageModal extends Component {
                     </TouchableOpacity>
                     {overlay}
                     {edit &&
-                    <TouchableOpacity
-                        style={styles.clearButton}
-                        onPress={this.onClearPressed}>
-                        <Text style={styles.doneText}>CLEAR</Text>
-                    </TouchableOpacity>
+                    <Swipeout
+                        style={styles.swipeout}
+                        backgroundColor='#ffffff'
+                        right={this.swipeoutButtons}>
+                        {
+                            <View style={styles.clearButton}>
+                                <Text style={styles.doneText}>CLEAR</Text>
+                            </View>
+                        }
+                    </Swipeout>
                     }
                 </ImageBackground>
                 }
@@ -226,14 +241,17 @@ const styles = StyleSheet.create({
         borderRadius: 4
     },
     clearButton: {
-        position: 'absolute',
-        bottom: 15,
-        right: 15,
         padding: 5,
         backgroundColor: 'transparent',
         borderColor: '#000000',
         borderWidth: 1,
-        borderRadius: 4
+        borderRadius: 4,
+        alignItems: 'center'
+    },
+    swipeout: {
+        marginBottom: 12,
+        paddingRight: 10,
+        paddingLeft: 10
     },
     doneText: {
         fontWeight: 'bold'

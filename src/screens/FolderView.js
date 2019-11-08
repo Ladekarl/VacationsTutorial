@@ -164,6 +164,7 @@ export default class FolderView extends Component {
                     onDonePressed={this.closeImageModal}
                     overlay={folder.overlay}
                     overlays={folder.overlays}
+                    edit={true}
                     image={'file://' + folder.image}/>
                 }
             </View>

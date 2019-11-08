@@ -11,9 +11,6 @@ const headerNavigationOptions = {
 };
 
 const Routes = {
-    SplashScreen: {
-        screen: SplashScreen
-    },
     CreateFolder: {
         screen: CreateFolder,
     },
@@ -28,7 +25,7 @@ const Routes = {
 };
 
 const routeConfig = {
-    initialRouteName: 'SplashScreen'
+    initialRouteName: 'FoldersList'
 };
 
 export default createAppContainer(
