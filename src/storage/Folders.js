@@ -1,4 +1,4 @@
-import { AsyncStorage } from 'react-native';
+import {AsyncStorage} from 'react-native';
 import Config from 'react-native-config';
 
 export default class Folders {
@@ -15,7 +15,7 @@ export default class Folders {
         folders.push(folder);
 
         return await Folders.saveFolders(folders, tabIndex);
-    }
+    };
 
     static editFolder = async (editedFolder, tabIndex) => {
         const folders = await Folders.getFolders(tabIndex);
@@ -29,7 +29,7 @@ export default class Folders {
             folders.splice(index, 1, editedFolder);
         }
         return await Folders.saveFolders(folders, tabIndex);
-    }
+    };
 
     static deleteFolder = async (folderToDelete, tabIndex) => {
         const folders = await Folders.getFolders(tabIndex);
@@ -46,12 +46,12 @@ export default class Folders {
         await Folders.saveFolders(folders, tabIndex);
 
         return folders;
-    }
+    };
 
     static saveFolders = async (folders, tabIndex) => {
         const sortedFolders = Folders.sortFolders(folders);
         return await Folders._saveItems(Folders._storageKey, tabIndex, sortedFolders);
-    }
+    };
 
     static saveSubfolders = async (parentId, tabIndex, subfolders) => {
         const sortedSubfolders = Folders.sortFolders(subfolders);
@@ -64,7 +64,7 @@ export default class Folders {
         } catch (error) {
             throw error;
         }
-    }
+    };
 
     static getFolders = async (tabIndex) => {
         return await Folders._getItems(Folders._storageKey, tabIndex);
@@ -79,7 +79,7 @@ export default class Folders {
         } catch (error) {
             throw error;
         }
-    }
+    };
 
     static addSubfolder = async (subfolder, tabIndex) => {
         let subfolders = await Folders.getSubfolders(subfolder.parent.id, tabIndex);
@@ -91,7 +91,7 @@ export default class Folders {
         subfolders.push(subfolder);
 
         return await Folders.saveSubfolders(subfolder.parent.id, tabIndex, subfolders);
-    }
+    };
 
     static editSubfolder = async (editedSubfolder, tabIndex) => {
         const subfolders = await Folders.getSubfolders(editedSubfolder.parent.id, tabIndex);
@@ -106,7 +106,7 @@ export default class Folders {
             subfolders.splice(index, 1, editedSubfolder);
         }
         return await Folders.saveSubfolders(editedSubfolder.parent.id, tabIndex, subfolders);
-    }
+    };
 
     static deleteSubfolder = async (parentId, tabIndex, subfolderToDelete) => {
         const subfolders = await Folders.getSubfolders(parentId, tabIndex);
@@ -123,7 +123,7 @@ export default class Folders {
         await Folders.saveSubfolders(parentId, tabIndex, subfolders);
 
         return subfolders;
-    }
+    };
 
     static getSubfolders = async (parentId, tabIndex) => {
         return await Folders._getItems(Folders._storageKey + parentId, tabIndex);

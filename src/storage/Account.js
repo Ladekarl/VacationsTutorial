@@ -3,9 +3,9 @@ export default class Account {
 
     static getSignedIn = () => {
         return Account._isSignedIn;
-    }
+    };
 
     static setSignedIn = (isSignedIn) => {
         Account._isSignedIn = isSignedIn
-    }
+    };
 }

@@ -1,7 +1,5 @@
 import React from 'react';
-import {
-    createMaterialTopTabNavigator,
-} from 'react-navigation';
+import {createMaterialTopTabNavigator} from 'react-navigation';
 import FoldersList from '../screens/FoldersList';
 
 const Routes = {
@@ -12,17 +10,17 @@ const Routes = {
         }
     },
     MyNewTab: {
-        screen: (props) => <FoldersList {...props} tabIndex={1} createFolderTitle='Create new tab folder' />,
+        screen: (props) => <FoldersList {...props} tabIndex={1} createFolderTitle='Create new tab folder'/>,
         navigationOptions: {
             title: 'My New Tab'
         }
     }
-}
+};
 
 const routeConfig = {
     swipeEnabled: false
-}
+};
 
-export default TabNavigator = createMaterialTopTabNavigator({
+export default createMaterialTopTabNavigator({
     ...Routes
 }, routeConfig);

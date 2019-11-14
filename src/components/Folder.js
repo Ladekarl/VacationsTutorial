@@ -15,7 +15,7 @@ export default class Folder extends Component {
         canDelete: PropTypes.bool.isRequired,
         toggleRowActive: PropTypes.func,
         active: PropTypes.bool.isRequired
-    }
+    };
 
     constructor(props) {
         super(props);

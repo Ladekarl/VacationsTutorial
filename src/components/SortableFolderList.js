@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { StyleSheet } from 'react-native';
+import React, {Component} from 'react';
+import {StyleSheet} from 'react-native';
 import SortableList from 'react-native-sortable-list';
 import PropTypes from 'prop-types';
 import Folder from '../components/Folder';
@@ -15,7 +15,7 @@ export default class SortableFolderList extends Component {
         onPress: PropTypes.func.isRequired,
         onOrderUpdated: PropTypes.func.isRequired,
         onFolderPress: PropTypes.func
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -27,11 +27,10 @@ export default class SortableFolderList extends Component {
             const folder = folders[i];
             preparedFolders[i] = folder;
         }
-
         return preparedFolders;
-    }
+    };
 
-    renderRow = ({ data, active }) => {
+    renderRow = ({data, active}) => {
         const isSignedIn = Account.getSignedIn();
         const {
             onDeletePress,
@@ -49,8 +48,8 @@ export default class SortableFolderList extends Component {
             onDeletePress={onDeletePress}
             onPress={onPress}
             onFolderPress={onFolderPress}
-        />
-    }
+        />;
+    };
 
     sortedFolders = {};
 
@@ -70,7 +69,7 @@ export default class SortableFolderList extends Component {
     }
 
     render() {
-        const { folders } = this.props;
+        const {folders} = this.props;
         this.sortedFolders = this.prepareFolders(folders);
 
         if (Object.keys(this.sortedFolders).length > 0) {
@@ -82,7 +81,7 @@ export default class SortableFolderList extends Component {
                     data={this.sortedFolders}
                     onReleaseRow={this.onReleaseRow}
                     renderRow={this.renderRow}
-                />)
+                />);
         } else {
             return null;
         }
