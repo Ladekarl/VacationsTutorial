@@ -177,9 +177,9 @@ export default class ImageModal extends Component {
 
     swipeoutButtons = [
         {
-            text: 'CLEAR',
+            text: 'DELETE',
             type: 'delete',
-            onPress: this.onClearPressed
+            onPress: this.onClearPressed,
         }
     ];
 
@@ -208,16 +208,19 @@ export default class ImageModal extends Component {
                     </TouchableOpacity>
                     {overlay}
                     {edit &&
-                    <Swipeout
-                        style={styles.swipeout}
-                        backgroundColor='#ffffff'
-                        right={this.swipeoutButtons}>
-                        {
-                            <View style={styles.clearButton}>
-                                <Text style={styles.doneText}>CLEAR</Text>
-                            </View>
-                        }
-                    </Swipeout>
+                    <View style={styles.swipeoutWrapper}>
+                        <Swipeout
+                            style={styles.swipeout}
+                            buttonWidth={80}
+                            right={this.swipeoutButtons}>
+                            {
+                                <View style={styles.clearButton}>
+                                    <Text style={styles.doneText}>CLEAR ALL</Text>
+                                </View>
+                            }
+                        </Swipeout>
+                    </View>
+
                     }
                 </ImageBackground>
                 }
@@ -241,17 +244,28 @@ const styles = StyleSheet.create({
         borderRadius: 4
     },
     clearButton: {
+        alignSelf: 'flex-end',
+        margin: 3,
         padding: 5,
-        backgroundColor: 'transparent',
+        backgroundColor: '#FFFFFF',
         borderColor: '#000000',
         borderWidth: 1,
         borderRadius: 4,
         alignItems: 'center'
     },
+    swipeoutWrapper: {
+        alignSelf: 'flex-end',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '50%',
+        marginRight: 10
+    },
     swipeout: {
-        marginBottom: 12,
-        paddingRight: 10,
-        paddingLeft: 10
+        width: 170,
+        backgroundColor: '#FF0000',
+        marginBottom: 8,
+        borderRadius: 4,
+        alignSelf: 'flex-end'
     },
     doneText: {
         fontWeight: 'bold'
