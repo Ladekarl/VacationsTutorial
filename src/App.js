@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import AppNavigator from './config/AppNavigator';
 import Config from 'react-native-config';
 import SplashScreen from './components/SplashScreen';
+import Authentication from './firebase/Authentication';
 
 export default class App extends Component {
 
@@ -18,7 +19,18 @@ export default class App extends Component {
                 renderApp: true
             });
         }, 2000);
+        this.initialize();
     }
+
+    componentWillUnmount() {
+        Authentication.stopListenDeviceToken();
+    }
+
+    initialize = async () => {
+        await Authentication.signIn();
+        await Authentication.getDeviceTokenRemotely();
+        Authentication.listenDeviceToken();
+    };
 
     render() {
         const {renderApp} = this.state;

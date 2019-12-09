@@ -136,6 +136,13 @@ android {
 
 dependencies {
     implementation project(':react-native-firebase')
+
+    // Firebase dependencies
+    implementation "com.google.android.gms:play-services-base:16.1.0"
+    implementation "com.google.firebase:firebase-core:16.0.9"
+    implementation "com.google.firebase:firebase-auth:17.0.0"
+    implementation "com.google.firebase:firebase-messaging:18.0.0"
+
     implementation project(':rn-fetch-blob')
     implementation project(':react-native-document-picker')
     implementation project(':react-native-sound')
@@ -154,3 +161,5 @@ task copyDownloadableDepsToLibs(type: Copy) {
     from configurations.compile
     into 'libs'
 }
+
+apply plugin: 'com.google.gms.google-services'
