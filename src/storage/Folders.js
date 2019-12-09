@@ -153,6 +153,11 @@ export default class Folders {
             sortedArr.splice(sortKeyFolder.sortKey, 0, sortKeyFolder);
         }
 
+        for (let i = 0; i < sortedArr.length; i++) {
+            const sortedFolder = sortedArr[i];
+            sortedFolder.sortKey = i;
+        }
+
         return sortedArr;
-    }
+    };
 }

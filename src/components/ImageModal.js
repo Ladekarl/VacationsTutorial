@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {ImageBackground, Modal, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import PropTypes from 'prop-types';
+import Swipeout from 'react-native-swipeout';
 
 export default class ImageModal extends Component {
 
@@ -17,7 +18,7 @@ export default class ImageModal extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            tempOverlays: new Array(6)
+            tempOverlays: props.overlays && props.overlays.length > 0 ? [...props.overlays] : new Array(6)
         };
     }
 
@@ -52,16 +53,20 @@ export default class ImageModal extends Component {
             let placeholderText = 'INDTAST';
             if (overlays && overlays.length > 0) {
                 const overlayText = overlays[index];
-                if (overlayText && overlayText.length > 0) {
+                if (overlayText && overlayText.trim().length > 0) {
                     placeholderText = overlayText;
                 }
             }
+
+            const value = tempOverlays[index];
+
             return (
                 <TextInput
                     style={textStyle}
-                    placeholder={placeholderText}
+                    placeholder={value ? '' : placeholderText}
                     placeholderTextColor='#000000'
-                    value={tempOverlays[index]}
+                    value={value}
+                    maxLength={20}
                     onChangeText={(text) => this.changeOverlayText(index, text)}
                 />
             );
@@ -170,6 +175,14 @@ export default class ImageModal extends Component {
         }
     };
 
+    swipeoutButtons = [
+        {
+            text: 'DELETE',
+            type: 'delete',
+            onPress: this.onClearPressed
+        }
+    ];
+
     render() {
         const {
             visible,
@@ -195,11 +208,18 @@ export default class ImageModal extends Component {
                     </TouchableOpacity>
                     {overlay}
                     {edit &&
-                    <TouchableOpacity
-                        style={styles.clearButton}
-                        onPress={this.onClearPressed}>
-                        <Text style={styles.doneText}>CLEAR</Text>
-                    </TouchableOpacity>
+                    <View style={styles.swipeoutWrapper}>
+                        <Swipeout
+                            style={styles.swipeout}
+                            buttonWidth={80}
+                            right={this.swipeoutButtons}>
+                            {
+                                <View style={styles.clearButton}>
+                                    <Text style={styles.doneText}>CLEAR ALL</Text>
+                                </View>
+                            }
+                        </Swipeout>
+                    </View>
                     }
                 </ImageBackground>
                 }
@@ -223,17 +243,31 @@ const styles = StyleSheet.create({
         borderRadius: 4
     },
     clearButton: {
-        position: 'absolute',
-        bottom: 15,
-        right: 15,
+        alignSelf: 'flex-end',
+        margin: 3,
         padding: 5,
-        backgroundColor: 'transparent',
+        backgroundColor: '#FFFFFF',
         borderColor: '#000000',
         borderWidth: 1,
-        borderRadius: 4
+        borderRadius: 4,
+        alignItems: 'center'
+    },
+    swipeoutWrapper: {
+        alignSelf: 'flex-end',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '50%',
+        marginRight: 10
+    },
+    swipeout: {
+        width: 170,
+        backgroundColor: '#FF0000',
+        marginBottom: 8,
+        borderRadius: 4,
+        alignSelf: 'flex-end'
     },
     doneText: {
-      fontWeight: 'bold'
+        fontWeight: 'bold'
     },
     overlayContainer: {
         flex: 1,

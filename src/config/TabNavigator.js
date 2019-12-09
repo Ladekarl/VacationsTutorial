@@ -12,7 +12,19 @@ const Routes = {
     MyNewTab: {
         screen: (props) => <FoldersList {...props} tabIndex={1} createFolderTitle='Create new tab folder'/>,
         navigationOptions: {
-            title: 'My New Tab'
+            title: 'New'
+        }
+    },
+    MyThirdTab: {
+        screen: (props) => <FoldersList {...props} tabIndex={2} createFolderTitle='Create third tab folder'/>,
+        navigationOptions: {
+            title: 'Third'
+        }
+    },
+    MyFourthTab: {
+        screen: (props) => <FoldersList {...props} tabIndex={3} createFolderTitle='Create fourth tab folder'/>,
+        navigationOptions: {
+            title: 'Fourth'
         }
     }
 };

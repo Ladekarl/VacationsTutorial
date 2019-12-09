@@ -2,7 +2,6 @@ import React from 'react';
 import {createAppContainer, createStackNavigator} from 'react-navigation';
 import CreateFolder from '../screens/CreateFolder';
 import FolderView from '../screens/FolderView';
-import SplashScreen from '../screens/SplashScreen';
 import Header from '../components/Header';
 import TabNavigator from './TabNavigator';
 
@@ -11,9 +10,6 @@ const headerNavigationOptions = {
 };
 
 const Routes = {
-    SplashScreen: {
-        screen: SplashScreen
-    },
     CreateFolder: {
         screen: CreateFolder,
     },
@@ -28,10 +24,10 @@ const Routes = {
 };
 
 const routeConfig = {
-    initialRouteName: 'SplashScreen'
+    initialRouteName: 'FoldersList'
 };
 
-export default AppNavigator = createAppContainer(
+export default createAppContainer(
     createStackNavigator({
         ...Routes
     }, routeConfig)

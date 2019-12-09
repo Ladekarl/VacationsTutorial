@@ -1,15 +1,10 @@
 import React, {Component} from 'react';
 import {Animated, Dimensions, Easing, Image, StyleSheet, View} from 'react-native';
 import Sound from 'react-native-sound';
-import {NavigationActions, StackActions} from 'react-navigation';
 
 const {height, width} = Dimensions.get('window');
 
 export default class SplashScreen extends Component {
-
-    static navigationOptions = {
-        header: null
-    };
 
     mySound;
 
@@ -19,17 +14,8 @@ export default class SplashScreen extends Component {
     }
 
     componentDidMount() {
-        const {navigation} = this.props;
-
         this.animate();
         this.playSound();
-        setTimeout(() => {
-            const resetAction = StackActions.reset({
-                index: 0,
-                actions: [NavigationActions.navigate({routeName: 'FoldersList'})]
-            });
-            navigation.dispatch(resetAction);
-        }, 2000);
     }
 
     componentWillUnmount() {

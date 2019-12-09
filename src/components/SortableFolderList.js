@@ -54,19 +54,16 @@ export default class SortableFolderList extends Component {
     sortedFolders = {};
 
     onReleaseRow = (key, nextOrder) => {
+        const folders = this.props.folders;
         for (let i = 0; i < nextOrder.length; i++) {
             const folderKey = nextOrder[i];
-            if (folderKey === key && folderKey != i) {
-                const folders = this.props.folders;
-                const folderIndex = folders.findIndex((folder) => folder.id === this.sortedFolders[folderKey].id);
-                if (folderIndex > -1) {
-                    folders[folderIndex].sortKey = i;
-                    this.props.onOrderUpdated(folders);
-                }
-                break;
+            const folderIndex = folders.findIndex((folder) => folder.id === this.sortedFolders[folderKey].id);
+            if (folderIndex > -1) {
+                folders[folderIndex].sortKey = i;
             }
         }
-    }
+        this.props.onOrderUpdated(folders);
+    };
 
     render() {
         const {folders} = this.props;
