@@ -1,8 +1,10 @@
 import firebase from 'react-native-firebase';
+import NotificationStorage from '../storage/Notifications';
 
 export default class Notifications {
     static _notificationListener;
-    static _topicName = 'VacationsTopic';
+    static _listenerFunction = () => {
+    };
 
     static checkPermissions = async () => {
         const enabled = await firebase.messaging().hasPermission();
@@ -13,8 +15,25 @@ export default class Notifications {
         }
     };
 
-    static listenNotifications = (listener) => {
-        Notifications._notificationListener = firebase.notifications().onNotification(listener);
+    static listenNotifications = () => {
+        Notifications._notificationListener = firebase.notifications().onNotification(notification => {
+            const now = new Date();
+            const notif = {
+                title: notification.title,
+                date: now.getDate() + '/' + now.getMonth() + '-' + now.getFullYear(),
+                time: now.getHours() + ':' + now.getMinutes(),
+                content: notification.body
+            };
+            NotificationStorage.saveNotification(notif).then(() => {
+                NotificationStorage.getNotifications().then(notifications => {
+                    Notifications._listenerFunction(notifications);
+                });
+            });
+        });
+    };
+
+    static setListenerFunction = (listenerFunction) => {
+        Notifications._listenerFunction = listenerFunction;
     };
 
     static stopListenNotifications = () => {

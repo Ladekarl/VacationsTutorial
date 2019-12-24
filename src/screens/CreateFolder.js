@@ -254,7 +254,7 @@ export default class CreateFolder extends Component {
                         style={styles.previewIcon}
                         resizeMode="contain"
                         borderRadius={10}
-                        source={{uri: cachedImage ?? 'file://' + folder.image}}
+                        source={{uri: cachedImage ? cachedImage : 'file://' + folder.image}}
                     />
                 </TouchableOpacity>
                 }
@@ -266,7 +266,7 @@ export default class CreateFolder extends Component {
                 {!!cachedImage || folder.image &&
                 <ImageModal
                     visible={imageModalVisible}
-                    image={cachedImage ?? 'file://' + folder.image}
+                    image={cachedImage ? cachedImage : 'file://' + folder.image}
                     overlay={folder.overlay}
                     overlays={folder.overlays}
                     edit={true}

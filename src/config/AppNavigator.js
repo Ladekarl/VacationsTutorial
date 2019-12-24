@@ -1,5 +1,5 @@
 import React from 'react';
-import {createAppContainer, createStackNavigator} from 'react-navigation';
+import {createStackNavigator} from 'react-navigation';
 import CreateFolder from '../screens/CreateFolder';
 import FolderView from '../screens/FolderView';
 import Header from '../components/Header';
@@ -27,8 +27,7 @@ const routeConfig = {
     initialRouteName: 'FoldersList'
 };
 
-export default createAppContainer(
-    createStackNavigator({
-        ...Routes
-    }, routeConfig)
-);
+
+export default createStackNavigator({
+    ...Routes
+}, routeConfig);
