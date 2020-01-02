@@ -21,9 +21,11 @@ export default class Notification extends Component {
     }
 
     notificationsUpdated = (notifications) => {
-        this.setState({
-            notifications
-        });
+        if (notifications) {
+            this.setState({
+                notifications: notifications.reverse()
+            });
+        }
     };
 
     renderNotifications = () => {
@@ -78,14 +80,14 @@ const styles = StyleSheet.create({
     notificationContainer: {
         margin: 10,
         borderRadius: 10,
-        backgroundColor: 'rgba(70, 129, 32,0.2)'
+        backgroundColor: 'rgba(70, 129, 32, 0.1)'
     },
     notificationTitleBar: {
-        backgroundColor: 'rgba(70, 129, 32, 0.1)',
         borderTopLeftRadius: 10,
         borderTopRightRadius: 10,
         padding: 10,
-        flexDirection: 'row'
+        flexDirection: 'row',
+        backgroundColor: 'rgba(70, 129, 32,0.2)'
     },
     notificationContent: {
         flex: 1,
