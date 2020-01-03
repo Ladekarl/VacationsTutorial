@@ -1,5 +1,6 @@
 import firebase from 'react-native-firebase';
 import NotificationStorage from '../storage/Notifications';
+import Config from 'react-native-config';
 
 export default class Notifications {
     static _notificationListener;
@@ -16,12 +17,13 @@ export default class Notifications {
     };
 
     static listenNotifications = () => {
+        firebase.messaging().subscribeToTopic(Config.FIREBASE_TOPIC);
         Notifications._notificationListener = firebase.notifications().onNotification(notification => {
             const now = new Date();
             const notif = {
                 title: notification.title,
-                date: now.getDate() + '/' + now.getMonth() + '-' + now.getFullYear(),
-                time: now.getHours() + ':' + now.getMinutes(),
+                date: ('0' + now.getDate()).slice(-2) + '/' + ('0' + (now.getMonth() + 1)).slice(-2) + '-' + now.getFullYear(),
+                time: ('0' + now.getHours()).slice(-2) + ':' + ('0' + now.getMinutes()).slice(-2),
                 content: notification.body
             };
             NotificationStorage.saveNotification(notif).then(() => {
@@ -40,5 +42,28 @@ export default class Notifications {
         if (Notifications._notificationListener) {
             Notifications._notificationListener();
         }
+        firebase.messaging().unsubscribeFromTopic(Config.FIREBASE_TOPIC);
+    };
+
+    static sendNotification = (text) => {
+        const headers = {
+            'Content-Type': 'application/json',
+            'Authorization': 'key=' + Config.FIREBASE_SERVER_KEY
+        };
+
+        const body = JSON.stringify({
+                'to': '/topics/' + Config.FIREBASE_TOPIC,
+                'notification': {
+                    'body': text,
+                    'title': 'Vacations',
+                }
+            }
+        );
+
+        return fetch('https://fcm.googleapis.com/fcm/send', {
+            method: 'POST',
+            headers,
+            body
+        });
     };
 }

@@ -1,17 +1,29 @@
 import React, {Component} from 'react';
 import {Image, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
+import Notifications from '../firebase/Notifications';
 
 export default class SendNotification extends Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            text: ''
+        };
     }
 
     sendNotification = () => {
+        Notifications.sendNotification(this.state.text);
+    };
 
+    onChangeText = (text) => {
+        this.setState({
+            text
+        });
     };
 
     render() {
+        const {text} = this.state;
+
         return (
             <View style={styles.container}>
                 <View style={styles.titleBar}>
@@ -21,7 +33,9 @@ export default class SendNotification extends Component {
                 </View>
                 <View style={styles.notificationContainer}>
                     <TextInput style={styles.notificationTextInput}
-                     multiline={true}/>
+                               value={text}
+                               onChangeText={this.onChangeText}
+                               multiline={true}/>
                 </View>
                 <View style={styles.buttonContainer}>
                     <TouchableOpacity onPress={this.sendNotification}>

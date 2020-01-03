@@ -26,7 +26,7 @@ const routes = {
     },
     SendNotifications: {
         screen: createStackNavigator({
-            Notifications: {
+            SendNotifications: {
                 screen: SendNotifications,
                 navigationOptions: headerNavigationOptions
             }
