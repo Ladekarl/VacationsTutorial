@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {ActivityIndicator, Image, Picker, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import Folders from '../storage/Folders';
 import uuid from 'react-native-uuid';
-import DocumentPicker from 'react-native-document-picker';
+import FilePickerManager from 'react-native-file-picker';
 import RNFetchBlob from 'rn-fetch-blob';
 import ImageModal from '../components/ImageModal';
 
@@ -112,42 +112,44 @@ export default class CreateFolder extends Component {
     onAddIconPressed = () => {
         const {navigation} = this.props;
         const {params = {}} = navigation.state;
-        DocumentPicker.pick({
-            type: [DocumentPicker.types.images]
-        }).then(res => {
-            const uri = res.uri;
-            RNFetchBlob.fs.stat(uri).then(stat => {
-                const icon = stat.path;
-                this.setState({
-                    folder: {
-                        ...this.state.folder,
-                        parent: params.parent,
-                        icon,
-                    },
-                    cachedIcon: uri
+
+        FilePickerManager.showFilePicker(null, (response) => {
+            if (!response.didCancel && !response.error) {
+                const uri = response.uri;
+                RNFetchBlob.fs.stat(uri).then(stat => {
+                    const icon = stat.path;
+                    this.setState({
+                        folder: {
+                            ...this.state.folder,
+                            parent: params.parent,
+                            icon,
+                        },
+                        cachedIcon: uri
+                    });
                 });
-            });
+            }
         });
     };
 
     onAddImagePressed = () => {
         const {navigation} = this.props;
         const {params = {}} = navigation.state;
-        DocumentPicker.pick({
-            type: [DocumentPicker.types.images]
-        }).then(res => {
-            const uri = res.uri;
-            RNFetchBlob.fs.stat(uri).then(stat => {
-                const image = stat.path;
-                this.setState({
-                    folder: {
-                        ...this.state.folder,
-                        image,
-                        parent: params.parent
-                    },
-                    cachedImage: uri
+
+        FilePickerManager.showFilePicker(null, (response) => {
+            if (!response.didCancel && !response.error) {
+                const uri = response.uri;
+                RNFetchBlob.fs.stat(uri).then(stat => {
+                    const image = stat.path;
+                    this.setState({
+                        folder: {
+                            ...this.state.folder,
+                            image,
+                            parent: params.parent
+                        },
+                        cachedImage: uri
+                    });
                 });
-            });
+            }
         });
     };
 

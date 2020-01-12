@@ -8,7 +8,7 @@ import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
 import io.invertase.firebase.notifications.RNFirebaseNotificationsPackage;
 import io.invertase.firebase.auth.RNFirebaseAuthPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
-import io.github.elyx0.reactnativedocumentpicker.DocumentPickerPackage;
+import com.filepicker.FilePickerPackage;
 import com.zmxv.RNSound.RNSoundPackage;
 import com.github.yamill.orientation.OrientationPackage;
 import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
@@ -36,7 +36,7 @@ public class MainApplication extends Application implements ReactApplication {
           new MainReactPackage(),
             new RNFirebasePackage(),
             new RNFetchBlobPackage(),
-            new DocumentPickerPackage(),
+            new FilePickerPackage(),
             new RNSoundPackage(),
             new OrientationPackage(),
             new ReactNativeConfigPackage(),
