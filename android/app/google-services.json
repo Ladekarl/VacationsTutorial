@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "248174793699",
+    "firebase_url": "https://vacations-2d794.firebaseio.com",
+    "project_id": "vacations-2d794",
+    "storage_bucket": "vacations-2d794.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:248174793699:android:f1fda63347982ae770c6d6",
+        "android_client_info": {
+          "package_name": "com.vacations"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "248174793699-1gn0ej1o41bulnmse8uebmot0bkb8brj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.vacations",
+            "certificate_hash": "54ae0e283fd0ee1ae1e7b563e9b50828ce730342"
+          }
+        },
+        {
+          "client_id": "248174793699-46k25hfc97bi4rb8sltkgoiddopq1sn2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAYUbE1c1wVE1E3iPgHIUFMyvfk7PSlhBs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "248174793699-46k25hfc97bi4rb8sltkgoiddopq1sn2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
