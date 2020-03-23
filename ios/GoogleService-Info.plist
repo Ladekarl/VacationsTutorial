@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>248174793699-gj1leno5cia5p7jofof3jm5arjg8fr6t.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.248174793699-gj1leno5cia5p7jofof3jm5arjg8fr6t</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>248174793699-48sgbroo64qe9mgqn3c6dpi0g6prfvqq.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAToUs155_au3bjbYphGM2TBny0ykhaJNw</string>
+	<key>GCM_SENDER_ID</key>
+	<string>248174793699</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.nielsladekarl.tutorials.Vacations</string>
+	<key>PROJECT_ID</key>
+	<string>vacations-2d794</string>
+	<key>STORAGE_BUCKET</key>
+	<string>vacations-2d794.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:248174793699:ios:5b79aa8f1527c8f770c6d6</string>
+	<key>DATABASE_URL</key>
+	<string>https://vacations-2d794.firebaseio.com</string>
+</dict>
+</plist>
