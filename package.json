@@ -9,8 +9,8 @@
   "dependencies": {
     "buffer": "^5.2.1",
     "prop-types": "^15.6.2",
-    "react": "16.6.3",
-    "react-native": "^0.58.1",
+    "react": "16.8.3",
+    "react-native": "^0.59.9",
     "react-native-config": "^0.11.7",
     "react-native-file-picker": "0.0.16",
     "react-native-firebase": "^5.2.0",
