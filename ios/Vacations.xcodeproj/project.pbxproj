@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -57,9 +58,9 @@
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
 		B2CDA61820CD47DDB4324D99 /* FontAwesome5_Solid.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D9A4E093802E4D188F240046 /* FontAwesome5_Solid.ttf */; };
 		B4AD169AA5994DC581DF3FD6 /* libReactNativeConfig-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 044890769E3E4611904AA5B5 /* libReactNativeConfig-tvOS.a */; };
+		CBE01AAE24390DC500AE4161 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CBE01AAD24390DC400AE4161 /* GoogleService-Info.plist */; };
 		CD3BD134D3E74540963E8A9A /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B7D6C0EF1A8E41E8A933F964 /* Entypo.ttf */; };
 		D02182DDBF29424793C2A9A1 /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B620F80E9351449FB376D77D /* EvilIcons.ttf */; };
-		DE2415DE5D9449FA87893CD7 /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F8384CC972A84638B370BBD2 /* libRNFetchBlob.a */; };
 		E6A3E34662744ED8B155774F /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DE99B7DF99DE407CBE1C6D60 /* Ionicons.ttf */; };
 		EC6318088A0D406BBCDAB526 /* AntDesign.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E407862CC14943889C818F05 /* AntDesign.ttf */; };
 		ED297163215061F000B7C4FE /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED297162215061F000B7C4FE /* JavaScriptCore.framework */; };
@@ -456,6 +457,7 @@
 		B7D6C0EF1A8E41E8A933F964 /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
 		C1AFFBFAD7D64CADA3294ECB /* RNSound.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNSound.xcodeproj; path = "../node_modules/react-native-sound/RNSound.xcodeproj"; sourceTree = "<group>"; };
 		CBE019A82439079400AE4161 /* Vacations.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Vacations.entitlements; path = Vacations/Vacations.entitlements; sourceTree = "<group>"; };
+		CBE01AAD24390DC400AE4161 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		D23BA6A3DBAF4775A534FA02 /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
 		D5B9DB168FFE4C7EA997154D /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
 		D6EE477876F945AF8D4ED688 /* libReactNativeConfig.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libReactNativeConfig.a; sourceTree = "<group>"; };
@@ -504,7 +506,6 @@
 				36938CA8395947498E6F9A81 /* libReactNativeConfig.a in Frameworks */,
 				A2E201E33AB04940B347792B /* libRCTOrientation.a in Frameworks */,
 				5F6E1CA4ECC74D3D99C7A734 /* libRNSound.a in Frameworks */,
-				DE2415DE5D9449FA87893CD7 /* libRNFetchBlob.a in Frameworks */,
 				3202F1F58C6A49F5BBC9892D /* libRNFirebase.a in Frameworks */,
 				10DC22DF82B605F39EDCF79B /* libPods-Vacations.a in Frameworks */,
 			);
@@ -732,6 +733,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				CBE01AAD24390DC400AE4161 /* GoogleService-Info.plist */,
 				13B07FAE1A68108700A75B9A /* Vacations */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* VacationsTests */,
@@ -771,11 +773,9 @@
 			children = (
 				41776C2DFF9C4D9998AEF57D /* libRNGestureHandler.a */,
 				95436055682C4D79A448075B /* libRNVectorIcons.a */,
-				C06569B3B18B4DC49C6A6630 /* libRNFS.a */,
 				D6EE477876F945AF8D4ED688 /* libReactNativeConfig.a */,
 				01CBE845533142DCB87E26F3 /* libRCTOrientation.a */,
 				5263C14C7A984AB197D63248 /* libRNSound.a */,
-				473D11081F36466E82AF5D16 /* libRNDocumentPicker.a */,
 				F8384CC972A84638B370BBD2 /* libRNFetchBlob.a */,
 				4558F12FF2C84B5ABF0CE7EB /* libRNFirebase.a */,
 				E903FBDE619C4F66A186A438 /* libRNVectorIcons-tvOS.a */,
@@ -1416,6 +1416,7 @@
 				81ABFE788EB040DDBE02585E /* FontAwesome5_Regular.ttf in Resources */,
 				B2CDA61820CD47DDB4324D99 /* FontAwesome5_Solid.ttf in Resources */,
 				6A151AD90D1948D9AAC2574E /* Foundation.ttf in Resources */,
+				CBE01AAE24390DC500AE4161 /* GoogleService-Info.plist in Resources */,
 				E6A3E34662744ED8B155774F /* Ionicons.ttf in Resources */,
 				A73FB3DF5F3949EBB55E89C7 /* MaterialCommunityIcons.ttf in Resources */,
 				2707344245AD4FCFBC43C65F /* MaterialIcons.ttf in Resources */,
@@ -1580,9 +1581,7 @@
 				INFOPLIST_FILE = VacationsTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -1611,9 +1610,7 @@
 				INFOPLIST_FILE = VacationsTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -1711,9 +1708,7 @@
 				);
 				INFOPLIST_FILE = "Vacations-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -1750,9 +1745,7 @@
 				);
 				INFOPLIST_FILE = "Vacations-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -1788,9 +1781,7 @@
 				);
 				INFOPLIST_FILE = "Vacations-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -1826,9 +1817,7 @@
 				);
 				INFOPLIST_FILE = "Vacations-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
