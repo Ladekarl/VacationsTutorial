@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {SafeAreaView, StyleSheet, View} from 'react-native';
 import DrawerNavigator from './config/DrawerNavigator';
 import Config from 'react-native-config';
 import SplashScreen from './components/SplashScreen';
@@ -46,7 +46,7 @@ export default class App extends Component {
         const {renderApp} = this.state;
         if (renderApp) {
             return (
-                <View style={styles.container}>
+                <SafeAreaView style={styles.container}>
                     <AppNavigator
                         persistenceKey={Config.NAVIGATION_PERSISTENCE_KEY}
                         ref={NavigationService.setTopLevelNavigator}
@@ -54,7 +54,7 @@ export default class App extends Component {
                     <View style={styles.drawerButton}>
                         <DrawerButton/>
                     </View>
-                </View>
+                </SafeAreaView>
             );
         } else {
             return (
@@ -66,7 +66,8 @@ export default class App extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1
+        flex: 1,
+        backgroundColor: '#e0e0e0'
     },
     drawerButton: {
         position: 'absolute',
