@@ -6,7 +6,7 @@ import SplashScreen from './components/SplashScreen';
 import Authentication from './firebase/Authentication';
 import DrawerButton from './components/DrawerButton';
 import NavigationService from './services/NavigationService';
-import {createAppContainer} from 'react-navigation';
+import {createAppContainer, SafeAreaView} from 'react-navigation';
 import Notifications from './firebase/Notifications';
 
 let AppNavigator = createAppContainer(DrawerNavigator);
@@ -47,13 +47,16 @@ export default class App extends Component {
         if (renderApp) {
             return (
                 <View style={styles.container}>
-                    <AppNavigator
-                        persistenceKey={Config.NAVIGATION_PERSISTENCE_KEY}
-                        ref={NavigationService.setTopLevelNavigator}
-                    />
-                    <View style={styles.drawerButton}>
-                        <DrawerButton/>
-                    </View>
+                    <SafeAreaView style={styles.safeAreaViewHeader}/>
+                    <SafeAreaView style={styles.container}>
+                        <AppNavigator
+                            persistenceKey={Config.NAVIGATION_PERSISTENCE_KEY}
+                            ref={NavigationService.setTopLevelNavigator}
+                        />
+                        <View style={styles.drawerButton}>
+                            <DrawerButton/>
+                        </View>
+                    </SafeAreaView>
                 </View>
             );
         } else {
@@ -65,8 +68,13 @@ export default class App extends Component {
 }
 
 const styles = StyleSheet.create({
+    safeAreaViewHeader: {
+        flex: 0,
+        backgroundColor: '#e0e0e0'
+    },
     container: {
-        flex: 1
+        flex: 1,
+        backgroundColor: '#FFFFFF'
     },
     drawerButton: {
         position: 'absolute',

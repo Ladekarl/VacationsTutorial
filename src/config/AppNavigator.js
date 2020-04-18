@@ -12,6 +12,9 @@ const headerNavigationOptions = {
 const Routes = {
     CreateFolder: {
         screen: CreateFolder,
+        navigationOptions: {
+            headerForceInset: { top: 'never', bottom: 'never' }
+        }
     },
     FoldersList: {
         screen: TabNavigator,
