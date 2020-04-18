@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
-import {SafeAreaView, StyleSheet, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import DrawerNavigator from './config/DrawerNavigator';
 import Config from 'react-native-config';
 import SplashScreen from './components/SplashScreen';
 import Authentication from './firebase/Authentication';
 import DrawerButton from './components/DrawerButton';
 import NavigationService from './services/NavigationService';
-import {createAppContainer} from 'react-navigation';
+import {createAppContainer, SafeAreaView} from 'react-navigation';
 import Notifications from './firebase/Notifications';
 
 let AppNavigator = createAppContainer(DrawerNavigator);
@@ -46,15 +46,18 @@ export default class App extends Component {
         const {renderApp} = this.state;
         if (renderApp) {
             return (
-                <SafeAreaView style={styles.container}>
-                    <AppNavigator
-                        persistenceKey={Config.NAVIGATION_PERSISTENCE_KEY}
-                        ref={NavigationService.setTopLevelNavigator}
-                    />
-                    <View style={styles.drawerButton}>
-                        <DrawerButton/>
-                    </View>
-                </SafeAreaView>
+                <View style={styles.container}>
+                    <SafeAreaView style={styles.safeAreaViewHeader}/>
+                    <SafeAreaView style={styles.container}>
+                        <AppNavigator
+                            persistenceKey={Config.NAVIGATION_PERSISTENCE_KEY}
+                            ref={NavigationService.setTopLevelNavigator}
+                        />
+                        <View style={styles.drawerButton}>
+                            <DrawerButton/>
+                        </View>
+                    </SafeAreaView>
+                </View>
             );
         } else {
             return (
@@ -65,9 +68,13 @@ export default class App extends Component {
 }
 
 const styles = StyleSheet.create({
+    safeAreaViewHeader: {
+        flex: 0,
+        backgroundColor: '#e0e0e0'
+    },
     container: {
         flex: 1,
-        backgroundColor: '#e0e0e0'
+        backgroundColor: '#FFFFFF'
     },
     drawerButton: {
         position: 'absolute',

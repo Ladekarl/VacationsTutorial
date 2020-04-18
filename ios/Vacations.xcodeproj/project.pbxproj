@@ -472,7 +472,6 @@
 				2D02E4C61E0B4AEC006451C7 /* libRCTSettings-tvOS.a in Frameworks */,
 				2D02E4C71E0B4AEC006451C7 /* libRCTText-tvOS.a in Frameworks */,
 				2D02E4C81E0B4AEC006451C7 /* libRCTWebSocket-tvOS.a in Frameworks */,
-				9F28515495684A99B69898A0 /* libRNVectorIcons-tvOS.a in Frameworks */,
 				B4AD169AA5994DC581DF3FD6 /* libReactNativeConfig-tvOS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -719,13 +718,11 @@
 			isa = PBXGroup;
 			children = (
 				41776C2DFF9C4D9998AEF57D /* libRNGestureHandler.a */,
-				95436055682C4D79A448075B /* libRNVectorIcons.a */,
 				D6EE477876F945AF8D4ED688 /* libReactNativeConfig.a */,
 				01CBE845533142DCB87E26F3 /* libRCTOrientation.a */,
 				5263C14C7A984AB197D63248 /* libRNSound.a */,
 				F8384CC972A84638B370BBD2 /* libRNFetchBlob.a */,
 				4558F12FF2C84B5ABF0CE7EB /* libRNFirebase.a */,
-				E903FBDE619C4F66A186A438 /* libRNVectorIcons-tvOS.a */,
 				044890769E3E4611904AA5B5 /* libReactNativeConfig-tvOS.a */,
 			);
 			name = "Recovered References";
@@ -817,7 +814,7 @@
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				A0781D46A9A51BB8249DD766 /* [CP] Copy Pods Resources */,
+				98DF9647FC78FF0452F335EF /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1282,13 +1279,6 @@
 			remoteRef = CBFE535C243903DA00E9951E /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		CBFE5363243903DA00E9951E /* libRNVectorIcons-tvOS.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = "libRNVectorIcons-tvOS.a";
-			remoteRef = CBFE5362243903DA00E9951E /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		CBFE5368243903DA00E9951E /* libRNFetchBlob.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1391,7 +1381,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		A0781D46A9A51BB8249DD766 /* [CP] Copy Pods Resources */ = {
+		98DF9647FC78FF0452F335EF /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
